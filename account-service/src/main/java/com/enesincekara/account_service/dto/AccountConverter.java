@@ -26,7 +26,6 @@ public class AccountConverter {
 
     public static Account fromCreateToEntity(AccountCreateRequest request){
         Account account = new Account();
-        account.setUserEmail(request.userEmail());
         account.setAccountType(request.accountType());
         account.setBalance(request.balance());
         return account;

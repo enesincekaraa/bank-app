@@ -38,6 +38,12 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @GetMapping("/exists")
+    public ResponseEntity<Void> userExists(@RequestParam String email) {
+        userService.getByEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.delete(id);

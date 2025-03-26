@@ -8,10 +8,11 @@ import java.util.List;
 public interface AccountService {
 
     AccountDto createAccount(AccountCreateRequest request);
-    List<AccountDto> getAll();
-    AccountDto getById(Long id);
-    void delete(Long id);
     List<AccountDto> getAccountsByUserEmail(String email);
+
+//    List<AccountDto> getAll();
+//    AccountDto getById(Long id);
+//    void delete(Long id);
 
 
 }

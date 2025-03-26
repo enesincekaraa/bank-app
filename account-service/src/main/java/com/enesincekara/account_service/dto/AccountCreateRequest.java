@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record AccountCreateRequest(
-        @NotBlank
-        String userEmail,
+
         @NotBlank
         String accountType,
         @NotNull
