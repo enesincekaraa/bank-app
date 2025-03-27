@@ -11,6 +11,7 @@ import feign.FeignException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -51,31 +52,22 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<AccountDto> getAll() {
-//        return accountRepository.findAll()
-//                .stream()
-//                .map(AccountConverter::toDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public AccountDto getById(Long id) {
-//        Account account = findById(id);
-//        return AccountConverter.toDto(account);
-//    }
-//
-//    @Override
-//    public void delete(Long id) {
-//        Account account =findById(id);
-//        accountRepository.delete(account);
-//    }
-//
+    @Override
+    public void updateBalance(String email, String accountType, BigDecimal amount) {
+        Account account = accountRepository.findByUserEmail(email)
+                .stream()
+                .filter(a -> a.getAccountType().equalsIgnoreCase(accountType))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Account not found"));
 
-//
-//
-//    public Account findById(Long id) {
-//        Account account = accountRepository.findById(id).orElseThrow(()-> new RuntimeException("Account not found with id: " + id ));
-//        return account;
-//    }
+        BigDecimal newBalance = account.getBalance().add(amount);
+
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Account balance is negative");
+        }
+
+        account.setBalance(newBalance);
+        accountRepository.save(account);
+    }
+
 }
